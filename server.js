@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors'); // Import cors package
 const { connectCommentDB, connectVideoDB, connectUserDB } = require('./config/db');
 const commentModel = require('./models/commentModels');
 const videoModel = require('./models/videoModels');
@@ -19,6 +20,7 @@ const app = express();
   const videoRoutes = require('./routes/videoRoutes')(Video);
   const userRoutes = require('./routes/userRoutes')(User);
 
+  app.use(cors()); // Enable CORS for all routes
   app.use(express.json());
 
   app.use('/api/comment', commentRoutes);
