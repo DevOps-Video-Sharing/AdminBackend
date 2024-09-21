@@ -5,10 +5,7 @@ dotenv.config();
 
 const connectCommentDB = async () => {
   try {
-    return await mongoose.createConnection(process.env.DB_COMMENT_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    return await mongoose.createConnection(process.env.DB_COMMENT_URI);
   } catch (error) {
     console.error('Error connecting to Comment DB:', error.message);
     process.exit(1);
@@ -17,10 +14,7 @@ const connectCommentDB = async () => {
 
 const connectVideoDB = async () => {
   try {
-    return await mongoose.createConnection(process.env.DB_VIDEO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    return await mongoose.createConnection(process.env.DB_VIDEO_URI);
   } catch (error) {
     console.error('Error connecting to Video DB:', error.message);
     process.exit(1);
@@ -29,14 +23,21 @@ const connectVideoDB = async () => {
 
 const connectUserDB = async () => {
   try {
-    return await mongoose.createConnection(process.env.DB_USER_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    return await mongoose.createConnection(process.env.DB_USER_URI);
   } catch (error) {
     console.error('Error connecting to User DB:', error.message);
     process.exit(1);
   }
 };
 
-module.exports = { connectCommentDB, connectVideoDB, connectUserDB };
+const connectAdmin = async () => {
+  try {
+    await mongoose.connect(process.env.DB_ADMIN_URI);
+    console.log('MongoDB connected');
+  } catch (error) {
+    console.error('MongoDB connection failed', error);
+    process.exit(1);
+  }
+};
+
+module.exports = { connectCommentDB, connectVideoDB, connectUserDB, connectAdmin };

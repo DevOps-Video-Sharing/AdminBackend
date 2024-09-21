@@ -1,9 +1,10 @@
 const express = require('express');
 const { getComments } = require('../controllers/commentController');
+const authenticateToken = require('../middlewares/authMiddleware');
 
-const router = express.Router();
 
 module.exports = (CommentModel) => {
-  router.get('/', (req, res) => getComments(req, res, CommentModel));
+  const router = express.Router();
+  router.get('/', authenticateToken ,(req, res) => getComments(req, res, CommentModel));
   return router;
 };
